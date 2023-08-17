@@ -1,0 +1,51 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+.headmain {
+    left: 0;
+    width: 100%;
+    transition: left 0.3s;
+}
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -200px;
+    width: 250px;
+    height: 100vh;
+    background-color: #f8f9fa;
+    transition: left 0.3s;
+    border-color: gray;
+}
+#sidebarToggleBtn{
+    position: absolute;
+    top: 12px;
+    right: 5px;
+}
+.sidebar.active {
+    left: 0;
+}
+
+.sidebar-header {
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+}
+
+.sidebar-body {
+    padding: 10px;
+}
