@@ -21,7 +21,7 @@ namespace Beau.Controllers
             return View();
         }
 
-        [HttpPost("getUser")]
+        [HttpPost]
         public async Task<ActionResult<int>> GetUser(UserInfo model)
         {
             var user = await dbcon.Users.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
