@@ -26,7 +26,7 @@ namespace Beau.Controllers
             if (user == null)
             {
                 TempData["message"] = "Error Info";
-                return View("LoginView");
+                return RedirectToAction("LoginView");
             }
 
             return View("../Home/Index");
