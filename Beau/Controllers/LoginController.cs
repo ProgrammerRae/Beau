@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace Beau.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class LoginController : Controller
     {
         private readonly DataBContext dbcon;
@@ -18,18 +20,23 @@ namespace Beau.Controllers
             ViewBag.message = TempData["message"];
             return View();
         }
-        [HttpPost]
-        public async Task<IActionResult> LogProcess(UserInfo model)
+
+        [HttpPost("getUser")]
+        public async Task<ActionResult<int>> GetUser(UserInfo model)
         {
             var user = await dbcon.Users.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
 
             if (user == null)
             {
-                TempData["message"] = "Error Info";
+                TempData["message"] = "Sorry Info Not Found";
                 return RedirectToAction("LoginView");
             }
 
-            return View("../Home/Index");
+            HttpContext.Session.SetInt32("UserId", user.UserId);
+
+            return RedirectToAction("Index", "Home");
         }
+
+
     }
 }
