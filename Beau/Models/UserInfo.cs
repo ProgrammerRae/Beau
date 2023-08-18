@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -26,6 +27,7 @@ namespace Beau.Models
         [DataType(DataType.Password)]
         public string Password { get; set; } = string.Empty;
         public List<Post>? Posts { get; set; }
+        public int PostId { get; set; }
         public int Age
         {
             get
