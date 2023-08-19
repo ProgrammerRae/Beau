@@ -11,6 +11,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<DataBContext>(options => options.UseSqlServer
 (builder.Configuration.GetConnectionString("DatabaseConnection")));
 
+builder.Services.AddHttpClient();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

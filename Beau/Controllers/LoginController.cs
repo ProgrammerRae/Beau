@@ -2,41 +2,45 @@
 using Beau.Data;
 using Beau.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace Beau.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class LoginController : Controller
     {
+        private readonly IHttpClientFactory _httpClientFactory;
         private readonly DataBContext dbcon;
-        public LoginController( DataBContext dbcont)
+        public LoginController( DataBContext dbcont, IHttpClientFactory httpClientFactory)
         {
             dbcon = dbcont;
+            _httpClientFactory = httpClientFactory;
         }
         public IActionResult LoginView()
         {
             ViewBag.message = TempData["message"];
             return View();
         }
-
-        [HttpPost]
-        public async Task<ActionResult<int>> GetUser(UserInfo model)
+        public async Task<IActionResult> LogProcess(UserInfo model)
         {
-            var user = await dbcon.Users.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
+            var httpClient = _httpClientFactory.CreateClient();
 
-            if (user == null)
+            var response = await httpClient.PostAsJsonAsync("https://localhost:7235/api/fetchdata/getuser", model);
+
+            if (response.IsSuccessStatusCode)
             {
-                TempData["message"] = "Sorry Info Not Found";
-                return RedirectToAction("LoginView");
+                var userId = await response.Content.ReadAsAsync<int>();
+                if (userId != 0)
+                {
+                    var user = dbcon.Users.FirstOrDefault(u => u.UserId == userId);
+                    if (user != null)
+                    {
+                        string username = user.Fname;
+                        ViewBag.Username = username;
+                    }
+                    return RedirectToAction("Index", "Home");
+                }
             }
-
-            HttpContext.Session.SetInt32("UserId", user.UserId);
-
-            return RedirectToAction("Index", "Home");
+            TempData["message"] = Convert.ToString(response);
+            return RedirectToAction("LoginView");
         }
-
-
     }
 }

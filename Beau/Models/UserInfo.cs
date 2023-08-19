@@ -27,7 +27,7 @@ namespace Beau.Models
         [DataType(DataType.Password)]
         public string Password { get; set; } = string.Empty;
         public List<Post>? Posts { get; set; }
-        public int PostId { get; set; }
+        public int? PostId { get; set; }
         public int Age
         {
             get
