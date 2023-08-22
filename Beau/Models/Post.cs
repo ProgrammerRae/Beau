@@ -10,6 +10,8 @@ namespace Beau.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PostId { get; set; }
+        [ForeignKey("UserInfo")]
+        public Guid UserId { get; set; }
         public UserInfo UserInfo { get; set; }
         public DateTime PostDate{ get; set;  }
         [Required]

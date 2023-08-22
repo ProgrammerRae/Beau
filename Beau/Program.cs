@@ -1,6 +1,6 @@
 using Beau.Data;
+using Beau.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,8 +10,11 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<DataBContext>(options => options.UseSqlServer
 (builder.Configuration.GetConnectionString("DatabaseConnection")));
-
+builder.Services.AddLogging(builder => builder.AddConsole()); 
 builder.Services.AddHttpClient();
+builder.Services.AddIdentityCore<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<DataBContext>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -31,6 +34,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Login}/{action=LoginView}/{id?}");
+    pattern: "{controller=Account}/{action=LoginView}/{id?}");
 
 app.Run();
