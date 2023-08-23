@@ -1,5 +1,7 @@
 ﻿
 
+using FluentNHibernate.Conventions.Inspections;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -11,7 +13,7 @@ namespace Beau.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PostId { get; set; }
         [ForeignKey("UserInfo")]
-        public Guid UserId { get; set; }
+        public int UserId { get; set; }
         public UserInfo UserInfo { get; set; }
         public DateTime PostDate{ get; set;  }
         [Required]

@@ -30,15 +30,17 @@ namespace Beau.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                var userId = await response.Content.ReadAsAsync<Guid>();
+                var userId = await response.Content.ReadAsAsync<int>();
                 if (userId != null)
                 {
-                    var user = dbcon.Credentials.FirstOrDefault(u => u.UserId == userId);
+                    var user = dbcon.Users
+                        .Include(x => x.Credentials)
+                        .FirstOrDefault(u => u.UserId == userId);
                     if (user != null)
                     {
-                        var uname = user.UserName;
+                        var uname = user.Credentials.UserName;
+                        return RedirectToAction("Index", "Home");
                     }
-                    return RedirectToAction("Index", "Home" );
                 }
             }
             TempData["message"] = Convert.ToString(response);
@@ -57,7 +59,7 @@ namespace Beau.Controllers
 
                     Email = cred.Email
                 };
-                var result = await _userManager.CreateAsync(user, cred.Password);
+                var result = await _userManager.CreateAsync(user, cred.PasswordHash);
 
                 if (result.Succeeded)
                 {

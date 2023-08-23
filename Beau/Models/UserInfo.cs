@@ -10,7 +10,7 @@ namespace Beau.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid UserId { get; set; }
+        public int UserId { get; set; }
         [Required]
         public string Fname { get; set; } = string.Empty;
         [Required]
@@ -24,7 +24,7 @@ namespace Beau.Models
         [NotMapped]
         public int Age => DateComputer.CalculateAge(birthday);
         [ForeignKey("UserCredentials")]
-        public Guid IdCred { get; set; }
+        public string Id { get; set; }
         public UserCredentials Credentials { get; set; }
     }
 }

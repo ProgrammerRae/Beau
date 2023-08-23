@@ -26,14 +26,14 @@ namespace Beau.Controllers
         [Route("AuthenticateLogs")]
         public async Task<ActionResult<int>> AuthenticateLogs(UserCredentials model)
         {
-            if (model == null || string.IsNullOrWhiteSpace(model.Email) || string.IsNullOrWhiteSpace(model.UserName) || string.IsNullOrWhiteSpace(model.Password))
+            if (model == null || string.IsNullOrWhiteSpace(model.Email) || string.IsNullOrWhiteSpace(model.UserName) || string.IsNullOrWhiteSpace(model.PasswordHash))
             {
                 return BadRequest("Invalid request data.");
             }
 
             var user = await dbcon.Credentials
                 .Include(x => x.UserInfo)
-                .FirstOrDefaultAsync(u => u.Email == model.Email || u.Email == model.UserName && u.Password == model.Password);
+                .FirstOrDefaultAsync(u => u.Email == model.Email || u.Email == model.UserName && u.PasswordHash == model.PasswordHash);
            
             if (user == null)
             {

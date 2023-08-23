@@ -15,10 +15,6 @@ namespace Beau.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<UserInfo>()
-                .HasMany(p => p.Posts)
-                .WithOne(u => u.UserInfo)
-                .HasForeignKey(fk => fk.UserId);
             modelBuilder.Entity<UserCredentials>()
                 .HasIndex(eml => eml.Email)
                 .IsUnique();
@@ -26,9 +22,16 @@ namespace Beau.Data
                .HasIndex(eml => eml.UserName)
                .IsUnique();
             modelBuilder.Entity<UserInfo>()
-                .HasOne<UserCredentials>()
-                .WithOne(uc=> uc.UserInfo)
-                .HasForeignKey<UserInfo>(ucred => ucred.UserId);
+                .HasOne(uc => uc.Credentials) 
+                .WithOne(ui => ui.UserInfo)
+                .HasForeignKey<UserInfo>(ui => ui.Id);
+            modelBuilder.Entity<Post>()
+                .HasOne<UserInfo>()
+                .WithMany(p => p.Posts)
+                .HasForeignKey(fk => fk.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+                
+
         }
 
     }
