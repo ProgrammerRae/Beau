@@ -1,4 +1,5 @@
 ﻿using Beau.Data;
+using Beau.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,8 +13,14 @@ namespace Beau.Controllers
             this.dbcon = dbcon;
         }
 
-        public IActionResult Index()
+        public IActionResult Index([FromQuery] Guid id)
         {
+            var user = dbcon.Users
+                .Include( inc => inc.UserCredentials)
+                .FirstOrDefault(u => u.UserId == id);
+            var uname = user.UserCredentials.UserName;
+            TempData["iun"] = uname;
+            ViewBag.name = TempData["iun"];
             return View();
         }
 

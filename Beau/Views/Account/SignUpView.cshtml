@@ -1,4 +1,4 @@
-﻿@model UserInfo
+﻿@model CredentialInfoModel
 @{
     ViewData["Title"] = "getUserInfo";
     ViewData["HideNavigations"] = true;
@@ -6,14 +6,27 @@
 <form asp-controller="Account" asp-action="SignUpProcess" method="post">
     <div class="row d-flex justify-content-center mt-sm-5">
         <div class="col-sm-11 col-lg-4 col-md-5 d-flex justify-content-center  p-5" style="flex-direction:column; border:solid;">
-            <label asp-for="Fname">First Name</label>
-            <input asp-for="Fname" type="text" id="Fname" name="Fname" />
-            <label asp-for="Lname">Last Name</label>
-            <input asp-for="Lname" type="text" id="Lname" name="Lname" />
-            <label asp-for="Phone">Phone Number</label>
-            <input asp-for="Phone" type="number" id="Phone" name="Phone" />
-            <label asp-for="birthday">Birthday</label>
-            <input asp-for="birthday" type="date" id="birthday" name="birthday" />
+           <fieldset>
+                <legend><h6>User Info</h6></legend>
+                <label asp-for="Ui.Fname">First Name</label>
+                <input asp-for="Ui.Fname" type="text" id="Fname" name="Ui.Fname" required autocomplete="off" />
+                <label asp-for="Ui.Lname">Last Name</label>
+                <input asp-for="Ui.Lname" type="text" id="Lname" name="Ui.Lname" required autocomplete="off" />
+                <label asp-for="Ui.Phone">Phone Number</label>
+                <input asp-for="Ui.Phone" type="number" id="Phone" name="Ui.Phone" required autocomplete="off" />
+                <label asp-for="Ui.birthday">Birthday</label>
+                <input asp-for="Ui.birthday" type="date" id="birthday" name="Ui.birthday" required autocomplete="off" />
+            </fieldset>
+            <fieldset>
+                <legend><h6>User Login Credentials</h6></legend>
+                <label asp-for="cred.UserName">Username</label>
+                <input asp-for="cred.UserName" type="text" id="uName" name="cred.UserName" required autocomplete="off" />
+                <label asp-for="cred.Email">Email </label>
+                <input asp-for="cred.Email" type="email" id="Email" name="cred.Email" required autocomplete="off" />
+                <label asp-for="cred.PasswordHash">Password</label>
+                <input asp-for="cred.PasswordHash" type="password" id="passW" name="cred.PasswordHash" required autocomplete="off" />
+            </fieldset>
+
             <h5 class="m-3 text-dark">@ViewBag.message</h5>
             <div class="d-flex flex-lg-column flex-sm-column flex-md-column justify-content-center">
                 <button type="submit" class="btn btn-primary mb-2 ">Sign up</button>

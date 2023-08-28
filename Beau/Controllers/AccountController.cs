@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Beau.Data;
 using Beau.Models;
+using BCrypt.Net;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.CodeAnalysis.Scripting;
 
 namespace Beau.Controllers
 {
@@ -10,82 +11,72 @@ namespace Beau.Controllers
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly DataBContext dbcon;
-        private readonly UserManager<IdentityUser> _userManager;
-        public AccountController( DataBContext dbcont, IHttpClientFactory httpClientFactory, UserManager<IdentityUser> userManager)
+        public AccountController( DataBContext dbcont, IHttpClientFactory httpClientFactory)
         {
             dbcon = dbcont;
             _httpClientFactory = httpClientFactory;
-            _userManager = userManager;
         }
         public IActionResult LoginView()
         {
             ViewBag.message = TempData["message"];
             return View();
         }
-        public async Task<IActionResult> LogProcess(UserInfo model, UserCredentials creden)
+        [HttpPost]
+        public async Task<IActionResult> LoginProcess(string emailOrUsername, string passwordHash)
         {
-            var httpClient = _httpClientFactory.CreateClient();
+            var users = await dbcon.Credentials
+                .Include(c => c.userInfo)
+                .Where(u => u.Email == emailOrUsername || u.UserName == emailOrUsername)
+                .ToListAsync();
 
-            var response = await httpClient.PostAsJsonAsync("https://localhost:7235/api/accountapi/authenticatelogs", model);
+            var user = users.FirstOrDefault(u => BCrypt.Net.BCrypt.Verify(passwordHash, u.PasswordHash));
 
-            if (response.IsSuccessStatusCode)
+            if (user != null)
             {
-                var userId = await response.Content.ReadAsAsync<int>();
-                if (userId != null)
-                {
-                    var user = dbcon.Users
-                        .Include(x => x.Credentials)
-                        .FirstOrDefault(u => u.UserId == userId);
-                    if (user != null)
-                    {
-                        var uname = user.Credentials.UserName;
-                        return RedirectToAction("Index", "Home");
-                    }
-                }
+                return RedirectToAction("Index", "Home", new { id = user.userInfo.UserId });
             }
-            TempData["message"] = Convert.ToString(response);
+
+            TempData["message"] = "Invalid credentials.";
             return RedirectToAction("LoginView");
         }
+
+
         public IActionResult SignUpView()
         {
             return View();
         }
-        public async Task<IActionResult> SignUpProcess(UserInfo model, UserCredentials cred)
+        [HttpPost]
+        public async Task<IActionResult> SignUpProcess(CredentialInfoModel model)
         {
-            if (ModelState.IsValid)
+            
+            if(model != null && model.cred != null && model.Ui != null)
             {
-                var user = new IdentityUser
+                var user = new UserCredentials
                 {
-
-                    Email = cred.Email
+                    UserName = model.cred.UserName,
+                    Email = model.cred.Email,
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.cred.PasswordHash , null)
                 };
-                var result = await _userManager.CreateAsync(user, cred.PasswordHash);
+                dbcon.Add(user);
+                await dbcon.SaveChangesAsync();
 
-                if (result.Succeeded)
+                var userProfile = new UserInfo
                 {
-                    var userProfile = new UserInfo
-                    {
-                        Fname = model.Fname,
-                        Lname = model.Lname,
-                        Phone = model.Phone,
-                        birthday = model.birthday
-                    };
+                    Fname = model.Ui.Fname,
+                    Lname = model.Ui.Lname,
+                    Phone = model.Ui.Phone,
+                    birthday = model.Ui.birthday,
+                    UserCredentials = user
+                };
 
-                    dbcon.Add(userProfile);
-                    await dbcon.SaveChangesAsync();
 
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
-                }
+                dbcon.Add(userProfile);
+                await dbcon.SaveChangesAsync();
+
+                return RedirectToAction("Index", "Home");
             }
-            TempData["Error"] = "Invalid ModelState";
-            return View("SignUpView");
+
+            return View("LoginView");
 
         }
     }

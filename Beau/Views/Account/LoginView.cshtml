@@ -3,13 +3,13 @@
     ViewData["Title"] = "getUserInfo";
     ViewData["HideNavigations"] = true;
 }
-<form asp-controller="Account" asp-action="LogProcess" method="post">
+<form asp-controller="Account" asp-action="LoginProcess" method="post">
     <div class="row d-flex justify-content-center mt-sm-5">
             <div class="col-sm-10 col-lg-3 col-md-4 d-flex justify-content-center  p-5" style="flex-direction:column; border:solid;">
-                    <label asp-for="Email">Email</label>
-                    <input asp-for="Email" type="email" id="Email" name="Email" />
-                    <label asp-for="PasswordHash">Password</label>
-                    <input asp-for="PasswordHash" type="password" id="Password" class="mb-3" name="Password" />
+                    <label for="EmailOrUsername">Email</label>
+                    <input for="EmailOrUsername" type="text" id="EmailOrUsername" name="EmailOrUsername" />
+                    <label for="passwordHash">Password</label>
+                    <input for="passwordHash" type="password" id="passwordHash" class="mb-3" name="passwordHash" />
                     <h5 class="m-3 text-dark">@ViewBag.message</h5>
                     <div class="d-flex flex-lg-column flex-sm-column flex-md-column justify-content-center">
                         <button type="submit" class="btn btn-primary mb-2 ">Login </button>

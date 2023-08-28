@@ -16,22 +16,22 @@ namespace Beau.Data
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<UserCredentials>()
+                .HasOne(uc => uc.userInfo)
+                .WithOne(ui => ui.UserCredentials)
+                .HasForeignKey<UserInfo>(ui => ui.IdCred)
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired();
+            modelBuilder.Entity<UserCredentials>()
                 .HasIndex(eml => eml.Email)
                 .IsUnique();
             modelBuilder.Entity<UserCredentials>()
                .HasIndex(eml => eml.UserName)
                .IsUnique();
-            modelBuilder.Entity<UserInfo>()
-                .HasOne(uc => uc.Credentials) 
-                .WithOne(ui => ui.UserInfo)
-                .HasForeignKey<UserInfo>(ui => ui.Id);
             modelBuilder.Entity<Post>()
                 .HasOne<UserInfo>()
                 .WithMany(p => p.Posts)
                 .HasForeignKey(fk => fk.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
-                
-
         }
 
     }

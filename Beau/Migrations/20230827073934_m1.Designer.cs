@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Beau.Migrations
 {
     [DbContext(typeof(DataBContext))]
-    [Migration("20230823141225_m1")]
+    [Migration("20230827073934_m1")]
     partial class m1
     {
         /// <inheritdoc />
@@ -38,16 +38,17 @@ namespace Beau.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("UserInfoUserId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UserInfoUserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("UserInfoUserId1")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UserInfoUserId1")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("PostId");
 
@@ -60,83 +61,52 @@ namespace Beau.Migrations
 
             modelBuilder.Entity("Beau.Models.UserCredentials", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("IdCred")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(450)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.HasKey("Id");
+                    b.HasKey("IdCred");
 
                     b.HasIndex("Email")
-                        .IsUnique()
-                        .HasFilter("[Email] IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex("UserName")
-                        .IsUnique()
-                        .HasFilter("[UserName] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("Credentials");
                 });
 
             modelBuilder.Entity("Beau.Models.UserInfo", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<Guid>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Fname")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Id")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("IdCred")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Lname")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Phone")
                         .IsRequired()
@@ -147,7 +117,7 @@ namespace Beau.Migrations
 
                     b.HasKey("UserId");
 
-                    b.HasIndex("Id")
+                    b.HasIndex("IdCred")
                         .IsUnique();
 
                     b.ToTable("Users");
@@ -172,18 +142,18 @@ namespace Beau.Migrations
 
             modelBuilder.Entity("Beau.Models.UserInfo", b =>
                 {
-                    b.HasOne("Beau.Models.UserCredentials", "Credentials")
-                        .WithOne("UserInfo")
-                        .HasForeignKey("Beau.Models.UserInfo", "Id")
+                    b.HasOne("Beau.Models.UserCredentials", "UserCredentials")
+                        .WithOne("userInfo")
+                        .HasForeignKey("Beau.Models.UserInfo", "IdCred")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Credentials");
+                    b.Navigation("UserCredentials");
                 });
 
             modelBuilder.Entity("Beau.Models.UserCredentials", b =>
                 {
-                    b.Navigation("UserInfo")
+                    b.Navigation("userInfo")
                         .IsRequired();
                 });
 
