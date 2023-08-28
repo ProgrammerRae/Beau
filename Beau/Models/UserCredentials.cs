@@ -14,6 +14,7 @@ namespace Beau.Models
         [DataType(DataType.Text)]
         [DisplayName("Username")]
         public string UserName { get; set; }
+
         [Required]
         [DataType(DataType.Password)]
         [DisplayName("Password")]
@@ -23,7 +24,6 @@ namespace Beau.Models
         [DisplayName("Email")]
         public string Email { get; set; }
         public UserInfo userInfo { get; set; }
-
 
     }
 }

@@ -33,7 +33,8 @@ namespace Beau.Controllers
 
             if (user != null)
             {
-                return RedirectToAction("Index", "Home", new { id = user.userInfo.UserId });
+                    
+                    return RedirectToAction("Index", "Home", new { id = user.userInfo.UserId });
             }
 
             TempData["message"] = "Invalid credentials.";
@@ -55,10 +56,9 @@ namespace Beau.Controllers
                 {
                     UserName = model.cred.UserName,
                     Email = model.cred.Email,
-                    PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.cred.PasswordHash , null)
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.cred.PasswordHash)
                 };
-                dbcon.Add(user);
-                await dbcon.SaveChangesAsync();
+                
 
                 var userProfile = new UserInfo
                 {
@@ -69,11 +69,11 @@ namespace Beau.Controllers
                     UserCredentials = user
                 };
 
-
+                dbcon.Add(user);
                 dbcon.Add(userProfile);
                 await dbcon.SaveChangesAsync();
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home", new { id = userProfile.UserId });
             }
 
             return View("LoginView");

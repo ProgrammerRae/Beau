@@ -13,14 +13,31 @@ namespace Beau.Controllers
             this.dbcon = dbcon;
         }
 
-        public IActionResult Index([FromQuery] Guid id)
+        public IActionResult Index(Guid id)
         {
             var user = dbcon.Users
                 .Include( inc => inc.UserCredentials)
                 .FirstOrDefault(u => u.UserId == id);
-            var uname = user.UserCredentials.UserName;
-            TempData["iun"] = uname;
-            ViewBag.name = TempData["iun"];
+
+            if (user != null)
+            {
+                var fkID = user.UserCredentials.IdCred;
+                var userCred = dbcon.Credentials.FirstOrDefault(pk => pk.IdCred == fkID);
+
+                if (userCred != null)
+                {
+                    ViewBag.name = userCred.UserName;
+                }
+                else
+                {
+                    ViewBag.name = "null";
+                }
+            }
+            else
+            {
+                ViewBag.name = "User not found"; 
+            }
+
             return View();
         }
 

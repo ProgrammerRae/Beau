@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <Folder Include="Models\DTO\" />
+    <Folder Include="Views\Post\" />
   </ItemGroup>
 
 </Project>
