@@ -23,7 +23,7 @@ body {
 }
 .sidebar {
     position: fixed;
-    top: 0;
+    top: 60px;
     left: -200px;
     width: 250px;
     height: 100vh;
@@ -32,9 +32,11 @@ body {
     border-color: gray;
 }
 #sidebarToggleBtn{
-    position: absolute;
-    top: 12px;
-    right: 5px;
+    position: relative;
+    top: 5px;
+    right:-10px;
+    border: none;
+    background: none;
 }
 .sidebar.active {
     left: 0;
@@ -48,4 +50,35 @@ body {
 
 .sidebar-body {
     padding: 10px;
+}
+
+.maincontainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+.custom-card {
+    width: fit-content;
+    height: fit-content;
+    padding: 10px;
+    align-self: center;
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 1px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+.post-container{
+    border: solid;
+    border-width: 1px;
+    border-radius: 50px;
+    width: 350px;
+}
+.content{
+    padding-left:10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }

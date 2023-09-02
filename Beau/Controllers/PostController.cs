@@ -1,4 +1,5 @@
 ﻿using Beau.Data;
+using Beau.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Beau.Controllers
@@ -10,9 +11,21 @@ namespace Beau.Controllers
         {
             this._dataBContext = dbcont;
         }
-        public IActionResult Index()
+        public IActionResult CreatePostView()
         {
             return View();
+        }
+        public async Task<IActionResult> PostSomething(Post posted)
+        {
+            var post = new Post
+            {
+                Status = posted.Status,
+                PostDate = DateTime.UtcNow
+
+            };
+            _dataBContext.Add(post);    
+            await _dataBContext.SaveChangesAsync();
+            return RedirectToAction("Home", "Index");
         }
 
     }

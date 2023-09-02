@@ -1,9 +1,15 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-
-}
-
-<div class="text-center">
-    <h1 class="display-4">Welcome @ViewBag.name</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+﻿
+<div class="maincontainer text-center">
+    <div>
+        <h1 class="display-4">Welcome @ViewBag.name</h1>
+        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    </div>
+    
+    <div class="row custom-card">
+        <div class="card-body">
+            <div class="post-container col-lg-12 d-flex">
+                    <a class="content btn btn-white btn-sm pointer-cursor text-decoration-none" asp-controller="Post" asp-action="CreatePostView">What's on your BRAIN? </a>
+            </div>
+        </div>
+    </div>
 </div>

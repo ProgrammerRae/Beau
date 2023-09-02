@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Beau.Migrations
 {
     [DbContext(typeof(DataBContext))]
-    [Migration("20230828073627_m3")]
-    partial class m3
+    [Migration("20230901140554_m2")]
+    partial class m2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,9 +47,6 @@ namespace Beau.Migrations
                     b.Property<Guid>("UserInfoUserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("UserInfoUserId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("PostId");
 
                     b.HasIndex("UserId");
@@ -73,9 +70,6 @@ namespace Beau.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -84,9 +78,6 @@ namespace Beau.Migrations
                     b.HasKey("IdCred");
 
                     b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.HasIndex("UserId")
                         .IsUnique();
 
                     b.HasIndex("UserName")
@@ -123,6 +114,9 @@ namespace Beau.Migrations
 
                     b.HasKey("UserId");
 
+                    b.HasIndex("IdCred")
+                        .IsUnique();
+
                     b.ToTable("Users");
                 });
 
@@ -143,23 +137,26 @@ namespace Beau.Migrations
                     b.Navigation("UserInfo");
                 });
 
-            modelBuilder.Entity("Beau.Models.UserCredentials", b =>
+            modelBuilder.Entity("Beau.Models.UserInfo", b =>
                 {
-                    b.HasOne("Beau.Models.UserInfo", "userInfo")
-                        .WithOne("UserCredentials")
-                        .HasForeignKey("Beau.Models.UserCredentials", "UserId")
+                    b.HasOne("Beau.Models.UserCredentials", "UserCredentials")
+                        .WithOne("userInfo")
+                        .HasForeignKey("Beau.Models.UserInfo", "IdCred")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("userInfo");
+                    b.Navigation("UserCredentials");
+                });
+
+            modelBuilder.Entity("Beau.Models.UserCredentials", b =>
+                {
+                    b.Navigation("userInfo")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Beau.Models.UserInfo", b =>
                 {
                     b.Navigation("Posts");
-
-                    b.Navigation("UserCredentials")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

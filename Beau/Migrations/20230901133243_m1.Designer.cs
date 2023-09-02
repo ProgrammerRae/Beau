@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Beau.Migrations
 {
     [DbContext(typeof(DataBContext))]
-    [Migration("20230827073934_m1")]
+    [Migration("20230901133243_m1")]
     partial class m1
     {
         /// <inheritdoc />
@@ -33,9 +33,6 @@ namespace Beau.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostId"));
 
-                    b.Property<DateTime>("PostDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -45,9 +42,6 @@ namespace Beau.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("UserInfoUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UserInfoUserId1")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("PostId");

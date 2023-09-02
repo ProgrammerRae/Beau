@@ -1,0 +1,10 @@
+﻿@model Post
+<form asp-action="PostSomething" asp-controller="Post" method="post">
+    <div class="row d-flex justify-content-center mt-sm-5">
+        <div class="col-sm-10 col-lg-5 col-md-5 d-flex justify-content-center  p-5" style="flex-direction:column; border-style: solid; border-width: 2px;">
+            <label for="Status">Enter your thoughts:</label>
+            <textarea id="Status" name="Status" rows="5" cols="50"></textarea>
+            <button type="submit" class="btn-sm" style="width: 7vw; margin-top: 10px; align-self:end; ">Post</button>
+        </div>
+    </div>
+</form>

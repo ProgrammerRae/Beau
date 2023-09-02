@@ -53,11 +53,8 @@ namespace Beau.Migrations
                 {
                     PostId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserInfoUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PostDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    UserInfoUserId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -68,12 +65,7 @@ namespace Beau.Migrations
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Posts_Users_UserInfoUserId",
-                        column: x => x.UserInfoUserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
+                    
                 });
 
             migrationBuilder.CreateIndex(
@@ -93,10 +85,7 @@ namespace Beau.Migrations
                 table: "Posts",
                 column: "UserId");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Posts_UserInfoUserId",
-                table: "Posts",
-                column: "UserInfoUserId");
+           
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_IdCred",

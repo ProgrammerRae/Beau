@@ -44,9 +44,6 @@ namespace Beau.Migrations
                     b.Property<Guid>("UserInfoUserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("UserInfoUserId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("PostId");
 
                     b.HasIndex("UserId");
