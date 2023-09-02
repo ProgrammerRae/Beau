@@ -21,6 +21,15 @@ body {
     width: 100%;
     transition: left 0.3s;
 }
+/*Sidebar*/
+.navi{
+    background: none;
+    color: black;
+}
+.navi:hover {
+    background: cornflowerblue;
+    color: white;
+}
 .sidebar {
     position: fixed;
     top: 60px;
@@ -51,7 +60,7 @@ body {
 .sidebar-body {
     padding: 10px;
 }
-
+/*Home*/
 .maincontainer {
     display: flex;
     flex-direction: column;
@@ -81,4 +90,15 @@ body {
     padding-right: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
+}
+/*signup*/
+.heading-signup {
+    align-self: center;
+    align-content: center;
+    justify-self: center;
+    justify-content: center;
+    border-top: solid 2px;
+    border-right: solid 2px;
+    border-left: solid 2px;
+    background: PINK;
 }

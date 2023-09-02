@@ -53,6 +53,7 @@ namespace Beau.Migrations
                 {
                     PostId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    PostDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
@@ -65,7 +66,6 @@ namespace Beau.Migrations
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Restrict);
-                    
                 });
 
             migrationBuilder.CreateIndex(
@@ -84,8 +84,6 @@ namespace Beau.Migrations
                 name: "IX_Posts_UserId",
                 table: "Posts",
                 column: "UserId");
-
-           
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_IdCred",

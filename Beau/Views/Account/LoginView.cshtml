@@ -10,7 +10,7 @@
                     <input for="EmailOrUsername" type="text" id="EmailOrUsername" name="EmailOrUsername" />
                     <label for="passwordHash">Password</label>
                     <input for="passwordHash" type="password" id="passwordHash" class="mb-3" name="passwordHash" />
-                    <h5 class="m-3 text-dark">@ViewBag.message</h5>
+                    <span class="text-danger">@ViewBag.message</span>
                     <div class="d-flex flex-lg-column flex-sm-column flex-md-column justify-content-center">
                         <button type="submit" class="btn btn-primary mb-2 ">Login </button>
                          <a asp-action="SignUpView" class="btn btn-link">Sign Up</a>

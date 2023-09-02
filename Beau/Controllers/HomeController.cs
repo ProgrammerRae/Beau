@@ -17,12 +17,14 @@ namespace Beau.Controllers
         {
             var user = dbcon.Users
                 .Include( inc => inc.UserCredentials)
+                .Include(p => p.Posts)
                 .FirstOrDefault(u => u.UserId == id);
 
             if (user != null)
             {
                 var fkID = user.UserCredentials.IdCred;
-                var userCred = dbcon.Credentials.FirstOrDefault(pk => pk.IdCred == fkID);
+                var userCred = dbcon.Credentials
+                    .FirstOrDefault(pk => pk.IdCred == fkID);
 
                 if (userCred != null)
                 {

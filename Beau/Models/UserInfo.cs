@@ -9,6 +9,7 @@ namespace Beau.Models
     {
         [Key]
         public Guid UserId { get; set; }
+
         [Required]
         [DataType(DataType.Text)]
         [StringLength(100)]
@@ -20,7 +21,7 @@ namespace Beau.Models
         [DisplayName("Last Name")]
         public string Lname { get; set; } = string.Empty;
         [Required]
-        [RegularExpression(@"^\+?[\d\s]*$", ErrorMessage = "Invalid phone number format.")]
+        [RegularExpression(@"^(\+[0-9\s]*|0[0-9\s]*)$", ErrorMessage = "Invalid phone number format.")]
         [Phone]
         [DisplayName("Phone Number")]
         public string Phone { get; set; } = string.Empty;
@@ -28,9 +29,10 @@ namespace Beau.Models
         [Required]
         [DataType(DataType.Date)]
         [DisplayName("Birthday")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime birthday { get; set; }
 
-        public ICollection<Post> Posts { get; set; }
+        public ICollection<Post>? Posts { get; set; }
 
         [NotMapped]
         public int Age => DateComputer.CalculateAge(birthday);

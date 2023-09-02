@@ -1,4 +1,4 @@
-﻿
+﻿@model Beau.Models.UserInfo
 <div class="maincontainer text-center">
     <div>
         <h1 class="display-4">Welcome @ViewBag.name</h1>
@@ -12,4 +12,20 @@
             </div>
         </div>
     </div>
+    @if(Model != null)
+    {
+        <h2>Notes</h2>
+        @foreach (var post in Model.Posts)
+        {
+            <div class="custom-card">
+                <h5>@post.PostDate</h5>
+                <p>@post.Status</p>
+            </div>
+        }
+    }
+    else
+    {
+        <h2>Nothing to Show</h2>
+    }
+
 </div>

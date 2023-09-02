@@ -23,7 +23,7 @@ namespace Beau.Models
         [EmailAddress]
         [DisplayName("Email")]
         public string Email { get; set; }
-        public UserInfo userInfo { get; set; }
+        public UserInfo? userInfo { get; set; }
 
     }
 }

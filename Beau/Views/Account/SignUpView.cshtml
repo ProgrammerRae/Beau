@@ -1,40 +1,72 @@
-﻿@model CredentialInfoModel
+﻿@model UserInfo
 @{
     ViewData["Title"] = "getUserInfo";
     ViewData["HideNavigations"] = true;
 }
-@{
-    ViewData["HideNavigations"] = true;
-}
-<form asp-controller="Account" asp-action="SignUpProcess" method="post">
-    <div class="row d-flex justify-content-center mt-sm-5">
-        <div class="col-sm-11 col-lg-4 col-md-5 d-flex justify-content-center  p-5" style="flex-direction:column; border:solid;">
-           <fieldset>
-                <legend><h6>User Info</h6></legend>
-                <label asp-for="Ui.Fname">First Name</label>
-                <input asp-for="Ui.Fname" type="text" id="Fname" name="Ui.Fname" required autocomplete="off" />
-                <label asp-for="Ui.Lname">Last Name</label>
-                <input asp-for="Ui.Lname" type="text" id="Lname" name="Ui.Lname" required autocomplete="off" />
-                <label asp-for="Ui.Phone">Phone Number</label>
-                <input asp-for="Ui.Phone" type="number" id="Phone" name="Ui.Phone" required autocomplete="off" />
-                <label asp-for="Ui.birthday">Birthday</label>
-                <input asp-for="Ui.birthday" type="date" id="birthday" name="Ui.birthday" required autocomplete="off" />
-            </fieldset>
+<form asp-controller="Account" asp-action="SignUpProcess" method="post" class="d-flex flex-column justify-content-center">
+    <div asp-validation-summary="All"></div>
+    <div class="row d-flex justify-content-center ">
+        <div class="heading-signup col-sm-11 col-lg-7 col-md-8 mt-4 d-flex justify-content-center ">
+            <h2 class="text-primary">Sign Up</h2>
+        </div>
+        
+        <div class="col-sm-11 col-lg-7 col-md-8 d-flex justify-content-between  p-4" style="flex-direction:row; border:solid 2px;">
+            
             <fieldset>
-                <legend><h6>User Login Credentials</h6></legend>
-                <label asp-for="cred.UserName">Username</label>
-                <input asp-for="cred.UserName" type="text" id="uName" name="cred.UserName" required autocomplete="off" />
-                <label asp-for="cred.Email">Email </label>
-                <input asp-for="cred.Email" type="email" id="Email" name="cred.Email" required autocomplete="off" />
-                <label asp-for="cred.PasswordHash">Password</label>
-                <input asp-for="cred.PasswordHash" type="password" id="passW" name="cred.PasswordHash" required autocomplete="off" />
+                <legend class="mt-2"><h5>User Info</h5></legend>
+                <div class="row">
+                    <label asp-for="Fname">First Name</label>
+                    <input asp-for="Fname" type="text" id="Fname" name="Fname" required autocomplete="off" class="form-control" />
+                    <span asp-validation-for="Fname" class="text-danger"></span>
+                </div>
+
+                <div class="row mt-4">
+                    <label asp-for="Lname">Last Name</label>
+                    <input asp-for="Lname" type="text" id="Lname" name="Lname" required autocomplete="off" class="form-control" />
+                    <span asp-validation-for="Lname" class="text-danger"></span>
+                </div>
+
+                <div class="row mt-4">
+                    <label asp-for="Phone">Phone Number</label>
+                    <input asp-for="Phone" type="tel" id="Phone" name="Phone" required autocomplete="off" class="form-control" />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+
+                <div class="row mt-4">
+                    <label asp-for="birthday">Birthday</label>
+                    <input asp-for="birthday" type="date" id="birthday" name="birthday" required autocomplete="off" class="form-control" />
+                    <span asp-validation-for="birthday" class="text-danger"></span>
+                </div>
+
             </fieldset>
+            
+           
+            <fieldset>
+                <legend class="mt-4"><h5>User Login Credentials</h5></legend>
+                <div class="row mt-4">
+                    <label asp-for="UserCredentials.UserName">Username</label>
+                    <input asp-for="UserCredentials.UserName" type="text" id="uName" name="UserCredentials.UserName" required autocomplete="off" class="form-control" />
+                    <span asp-validation-for="UserCredentials.UserName" class="text-danger"></span>
+                </div>
 
-            <h5 class="m-3 text-dark">@ViewBag.message</h5>
-            <div class="d-flex flex-lg-column flex-sm-column flex-md-column justify-content-center">
-                <button type="submit" class="btn btn-primary mb-2 ">Sign up</button>
-            </div>
+                <div class="row mt-4">
+                    <label asp-for="UserCredentials.Email">Email </label>
+                    <input asp-for="UserCredentials.Email" type="email" id="Email" name="UserCredentials.Email" required autocomplete="off" class="form-control" />
+                    <span asp-validation-for="UserCredentials.Email " class="text-danger"></span>
+                </div>
 
+                <div class="row mt-4">
+                    <label asp-for="UserCredentials.PasswordHash">Password</label>
+                    <input asp-for="UserCredentials.PasswordHash" type="password" id="passW" name="UserCredentials.PasswordHash" required autocomplete="off" class="form-control" />
+                    <span asp-validation-for="UserCredentials.PasswordHash" class="text-danger"></span>
+                </div>
+
+                <h5 class="m-3 text-dark">@ViewBag.message</h5>
+                <div class="d-flex flex-lg-column flex-sm-column flex-md-column justify-content-center">
+                    <button type="submit" class="btn btn-primary mb-2 ">Sign up</button>
+                </div>
+            </fieldset>
+           
         </div>
     </div>
 </form>

@@ -28,7 +28,7 @@ namespace Beau.Data
                .HasIndex(eml => eml.UserName)
                .IsUnique();
             modelBuilder.Entity<Post>()
-                .HasOne<UserInfo>()
+                .HasOne(us=> us.UserInfo)
                 .WithMany(p => p.Posts)
                 .HasForeignKey(fk => fk.UserId)
                 .OnDelete(DeleteBehavior.Restrict);

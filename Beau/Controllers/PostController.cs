@@ -11,12 +11,15 @@ namespace Beau.Controllers
         {
             this._dataBContext = dbcont;
         }
-        public IActionResult CreatePostView()
+        
+        public IActionResult CreatePostView(Guid id)
         {
+            
             return View();
         }
         public async Task<IActionResult> PostSomething(Post posted)
         {
+
             var post = new Post
             {
                 Status = posted.Status,

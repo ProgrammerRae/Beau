@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Beau.Migrations
 {
     [DbContext(typeof(DataBContext))]
-    [Migration("20230901133243_m1")]
-    partial class m1
+    [Migration("20230902131047_m2")]
+    partial class m2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,9 @@ namespace Beau.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostId"));
 
+                    b.Property<DateTime>("PostDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -41,14 +44,9 @@ namespace Beau.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("UserInfoUserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("PostId");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("UserInfoUserId");
 
                     b.ToTable("Posts");
                 });
@@ -119,16 +117,10 @@ namespace Beau.Migrations
 
             modelBuilder.Entity("Beau.Models.Post", b =>
                 {
-                    b.HasOne("Beau.Models.UserInfo", null)
+                    b.HasOne("Beau.Models.UserInfo", "UserInfo")
                         .WithMany("Posts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Beau.Models.UserInfo", "UserInfo")
-                        .WithMany()
-                        .HasForeignKey("UserInfoUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("UserInfo");
