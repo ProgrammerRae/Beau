@@ -1,3 +1,11 @@
+* {
+    --border: #616161;
+    --shadow: #00000036;
+    --card-bg: #222222;
+    --end-line: #c80000;
+    --card-accent: #414141;
+    --text: #fff;
+}
 html {
   font-size: 14px;
 }
@@ -14,7 +22,9 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    background-color: var(--card-bg);
+    color: var(--text);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .headmain {
     left: 0;
@@ -61,35 +71,128 @@ body {
     padding: 10px;
 }
 /*Home*/
-.maincontainer {
+
+.parent-container {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    height: 90vh;
 }
-.custom-card {
-    width: fit-content;
+/* lagay mo sa cards */
+.box-shadow {
+    box-shadow: 0 5px 10px var(--shadow);
+}
+
+/* palit mo sa class na custom-card sa pang gawa ng new post */
+.new-post {
+    width: 100%;
     height: fit-content;
-    padding: 10px;
-    align-self: center;
-    border-radius: 10px;
-    border-style: solid;
-    border-width: 1px;
-    display: flex;
-    justify-content: center;
-    align-content: center;
+    padding: 2%;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background-color: var(--card-bg);
 }
-.post-container{
-    border: solid;
-    border-width: 1px;
-    border-radius: 50px;
-    width: 350px;
+
+/* new class sa post cards*/
+.post-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr 4fr;
 }
-.content{
-    padding-left:10px;
-    padding-right: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+
+.post-details span:nth-child(1) {
+    text-align: start;
+    font-weight: bolder;
+    padding-left: 5%;
+    border-radius: 10px 0 0 0;
+    background-color: var(--card-accent);
+}
+
+.post-details span:nth-child(2) {
+    text-align: end;
+    border-radius: 0 10px 0 0;
+    padding-right: 5%;
+    background-color: var(--card-accent);
+}
+
+.post-details span:nth-child(3) {
+    text-align: end;
+}
+
+.post-content {
+    padding: 2%;
+    border-radius: 0 10px 10px 10px;
+    background-color: var(--card-accent);
+}
+
+.post-details button {
+    border: none;
+    background-color: transparent;
+    color: var(--text);
+}
+
+/* new class sa new post */
+.new-post-title {
+    font-size: 1.2rem;
+    padding: 0 1% 0 1%;
+    font-weight: bolder;
+    border-radius: 10px 10px 0 0;
+    background-color: var(--card-accent);
+}
+
+/* new class */
+.post-title {
+    width: fit-content;
+    padding: 0 5% 0 5%;
+    margin: 1% 0 1% 0;
+    font-size: 1.5rem;
+    border-radius: 0 10px 10px 0;
+    background-color: var(--card-accent);
+    font-weight: bolder;
+}
+
+.post-end {
+    text-align: center;
+    width: 100%;
+    background-color: var(--end-line);
+    font-style: italic;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+}
+
+.maincontainer {
+    min-width: 1200px;
+    height: 100vh;
+    overflow-y: auto;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    overflow-x: hidden;
+}
+
+.custom-card {
+    width: 100%;
+    padding: 2%;
+    height: fit-content;
+    border-top: 1px solid var(--border);
+    background-color: var(--card-bg);
+}
+
+.post-container {
+    width: 100%;
+    height: fit-content;
+    padding: 2%;
+    border: none;
+    border-radius: 0 10px 10px 10px;
+    color: var(--text);
+    background-color: var(--card-accent);
+}
+.post-container a {
+    text-decoration: none;
+    color: var(--text);
+}
+.no-scroll {
+    overflow: hidden;
 }
 /*signup*/
 .heading-signup {
@@ -101,4 +204,48 @@ body {
     border-right: solid 2px;
     border-left: solid 2px;
     background: PINK;
+}
+.content {
+    color: var(--text);
+}
+/*3dotmenu panel*/
+.menu-panel {
+    position: absolute;
+}
+.dot-menu{
+    width: 15vw;
+    height: 21vh;
+    background-color: aliceblue;
+    border-radius: 20px;
+    justify-self: end;
+    align-self: end;
+}
+.info{
+    visibility: hidden;
+}
+.showinfo{
+    visibility: visible;
+    cursor: pointer;
+    color: black;
+    font-size: 2vh;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+}
+.showinfo span{
+    margin: 6px;
+    padding: 4px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+.showinfo span:hover{
+    color: white;
+    background-color: black
+}
+.blur-effect{
+    filter: blur(5px);
+}
+.no-blur{
+    filter: none;
 }

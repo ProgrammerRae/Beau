@@ -10,23 +10,23 @@ namespace Beau.Models
         [Key]
         public Guid UserId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter your First Name")]
         [DataType(DataType.Text)]
-        [StringLength(100)]
+        [StringLength(100,ErrorMessage = "Name is Too long")]
         [DisplayName("First Name")]
         public string Fname { get; set; } = string.Empty;
-        [Required]
+        [Required(ErrorMessage = "Please enter your Last Name")]
         [DataType(DataType.Text)]
-        [StringLength(100)]
+        [StringLength(100, ErrorMessage = "Name is Too long")]
         [DisplayName("Last Name")]
         public string Lname { get; set; } = string.Empty;
-        [Required]
+        [Required(ErrorMessage = "Please enter your Phone Number")]
         [RegularExpression(@"^(\+[0-9\s]*|0[0-9\s]*)$", ErrorMessage = "Invalid phone number format.")]
-        [Phone]
+        [Phone(ErrorMessage = "Invalid Characters")]
         [DisplayName("Phone Number")]
         public string Phone { get; set; } = string.Empty;
 
-        [Required]
+        [Required(ErrorMessage = "Please enter your Birthday")]
         [DataType(DataType.Date)]
         [DisplayName("Birthday")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]

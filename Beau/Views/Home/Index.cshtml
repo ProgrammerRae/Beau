@@ -1,31 +1,43 @@
 ﻿@model Beau.Models.UserInfo
-<div class="maincontainer text-center">
-    <div>
-        <h1 class="display-4">Welcome @ViewBag.name</h1>
-        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    </div>
-    
-    <div class="row custom-card">
-        <div class="card-body">
-            <div class="post-container col-lg-12 d-flex">
-                    <a class="content btn btn-white btn-sm pointer-cursor text-decoration-none" asp-controller="Post" asp-action="CreatePostView">What's on your BRAIN? </a>
+<div class="parent-container" id="parent-container">
+    <div class="maincontainer" id="main-container">
+        <div class="row new-post box-shadow">
+            <div class="card-body">
+                <span class="new-post-title">New Note</span>
+                <div class="post-container col-lg-12 d-flex">
+                    <a asp-controller="Post" asp-action="CreatePostView">What's on your BRAIN? </a>
+                </div>
             </div>
         </div>
-    </div>
-    @if(Model != null)
-    {
-        <h2>Notes</h2>
-        @foreach (var post in Model.Posts)
+        @if(Model.Posts != null)
         {
-            <div class="custom-card">
-                <h5>@post.PostDate</h5>
-                <p>@post.Status</p>
-            </div>
+            <div class="post-title">NOTES</div>
+            @foreach (var post in Model.Posts)
+            {
+                <div class="custom-card box-shadow">
+                    <div class="post-details">
+                        <span>@post.UserInfo.UserCredentials.UserName</span>
+                        <span>@post.PostDate</span>
+                        <span><button onclick="menu(this)" class="menu-button" id="menu-button">•••</button></span>
+                    </div>
+                    <div class="post-content">
+                        <p>@post.Status</p>
+                    </div>
+                </div>
+                
+            }
         }
-    }
-    else
-    {
-        <h2>Nothing to Show</h2>
-    }
+        else
+        {
+            <div class="post-end">Nothing to Show</div>
+        }
 
+</div>
+</div>
+<div class="menu-panel" id="menu-panel">
+    <div class="info" id="info">
+        <span>Edit Note</span>
+        <span>Delete Note</span>
+        <span onclick="exit()">Cancel</span>
+    </div>
 </div>

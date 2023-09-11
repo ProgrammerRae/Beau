@@ -2,42 +2,39 @@
 using Beau.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using Beau.Repository;
 
 namespace Beau.Controllers
 {
     public class HomeController : Controller
     {
         private readonly DataBContext dbcon;
-        public HomeController(DataBContext dbcon)
+        private readonly PostRepository _postRepository;
+        private readonly UserRepository _userRepository;
+        public HomeController(DataBContext dbcon, PostRepository postRepository, UserRepository userRepository)
         {
             this.dbcon = dbcon;
+            _postRepository = postRepository;
+            _userRepository = userRepository;
         }
 
-        public IActionResult Index(Guid id)
+        public IActionResult Index()
         {
-            var user = dbcon.Users
-                .Include( inc => inc.UserCredentials)
-                .Include(p => p.Posts)
-                .FirstOrDefault(u => u.UserId == id);
+            string idIgot = HttpContext.Session.GetString("UserId");
+            Guid id = Guid.Parse(idIgot);
 
-            if (user != null)
-            {
-                var fkID = user.UserCredentials.IdCred;
-                var userCred = dbcon.Credentials
-                    .FirstOrDefault(pk => pk.IdCred == fkID);
+            var userLogName = _userRepository.GetUserNameByID(id);
 
-                if (userCred != null)
-                {
-                    ViewBag.name = userCred.UserName;
-                }
-                else
-                {
-                    ViewBag.name = "null";
-                }
-            }
-            else
+            var userInfo = new UserInfo();
+            userInfo.Posts = _postRepository.GetPostsByUserId(id);
+
+
+            if (userInfo.Posts != null)
             {
-                ViewBag.name = "User not found"; 
+                
+                ViewBag.name = userLogName;
+                return View(userInfo);
             }
 
             return View();
@@ -45,6 +42,9 @@ namespace Beau.Controllers
 
         public IActionResult Profile()
         {
+            string idIgot = HttpContext.Session.GetString("UserId");
+            Guid id = Guid.Parse(idIgot);
+
             return View();
         }
 

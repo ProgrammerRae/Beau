@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Beau.Data;
 using Beau.Models;
-using BCrypt.Net;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.CodeAnalysis.Scripting;
-using NHibernate.Id.Insert;
+using Microsoft.AspNetCore.Http;
 
 namespace Beau.Controllers
 {
@@ -36,8 +34,9 @@ namespace Beau.Controllers
 
                 if (user != null)
                 {
-
-                    return RedirectToAction("Index", "Home", new { id = user.userInfo.UserId });
+                   
+                    HttpContext.Session.SetString("UserId", user.userInfo.UserId.ToString());
+                    return RedirectToAction("Index", "Home");
                 }
 
                 TempData["message"] = "Invalid credentials.";
@@ -55,6 +54,16 @@ namespace Beau.Controllers
         [HttpPost]
         public async Task<IActionResult> SignUpProcess(UserInfo model)
         {
+            var emailExist = dbcon.Credentials.Where(ems => ems.Email == model.UserCredentials.Email);
+            if (emailExist!= null)
+            {
+                ModelState.AddModelError("Email", " Email Already Exist");
+            }
+            var userNameExist = dbcon.Credentials.Where(usr => usr.UserName == model.UserCredentials.UserName);
+            if (userNameExist != null)
+            {
+                ModelState.AddModelError("Username", "Username Already Exist");
+            }
             if (ModelState.IsValid) { 
                 if (model != null)
                 {
@@ -79,10 +88,11 @@ namespace Beau.Controllers
                     dbcon.Add(userProfile);
                     await dbcon.SaveChangesAsync();
 
-                    return RedirectToAction("Index", "Home", new { id = userProfile.UserId });
+                    HttpContext.Session.SetString("UserId", model.UserId.ToString());
+                    return RedirectToAction("Index", "Home");
                 }
 
-            return View("LoginView");
+                return View("LoginView");
             }
             return  View("SignUpView", model);
         }
